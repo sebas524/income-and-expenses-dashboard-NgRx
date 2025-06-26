@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { unauthenticatedGuard } from './auth/guards/unauthenticated.guard';
 
 export const routes: Routes = [
   {
@@ -18,6 +19,7 @@ export const routes: Routes = [
         return m.dashboardRoutes;
       });
     },
+    canMatch: [unauthenticatedGuard],
   },
   { path: '**', redirectTo: 'dashboard' },
 ];

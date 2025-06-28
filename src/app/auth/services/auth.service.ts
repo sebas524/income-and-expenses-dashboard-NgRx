@@ -5,17 +5,34 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from '@angular/fire/auth';
-import { Firestore, doc, setDoc } from '@angular/fire/firestore';
-import { map, Observable } from 'rxjs';
+import { Firestore, doc, getDoc, setDoc } from '@angular/fire/firestore';
+import { from, map, Observable, switchMap } from 'rxjs';
 import { User } from '../../models/user.model';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../app.reducer';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private fireAuth = inject(Auth);
   private firestore = inject(Firestore);
+  private store = inject(Store<AppState>);
 
-  initAuthListener() {
-    return authState(this.fireAuth);
+  initAuthListener(): Observable<User | null> {
+    return authState(this.fireAuth).pipe(
+      switchMap((fbUser) => {
+        if (!fbUser) return [null]; // emit null when signed out
+
+        const userDocRef = doc(this.firestore, `user/${fbUser.uid}`);
+        return from(getDoc(userDocRef)).pipe(
+          map((docSnap) => {
+            if (!docSnap.exists()) return null;
+
+            const userData = docSnap.data() as User;
+            return new User(fbUser.uid, userData.name, userData.email);
+          })
+        );
+      })
+    );
   }
 
   isAuth(): Observable<boolean> {

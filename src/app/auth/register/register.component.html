@@ -60,6 +60,7 @@
             </div>
 
             <div class="form-group">
+              @if (!loading) {
               <button
                 class="btn btn-primary submit-btn btn-block"
                 type="submit"
@@ -67,6 +68,17 @@
               >
                 Create Account
               </button>
+              }@else {
+              <button
+                class="btn btn-primary submit-btn btn-block"
+                type="button"
+                [disabled]="true"
+              >
+                <i class="fa fa-spin fa-sync"></i>
+                Accesing...
+              </button>
+
+              }
             </div>
             <div class="text-block text-center my-3">
               <span class="text-small font-weight-semibold"

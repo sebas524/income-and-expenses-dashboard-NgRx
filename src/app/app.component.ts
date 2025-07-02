@@ -4,6 +4,7 @@ import { AuthService } from './auth/services/auth.service';
 import { Store } from '@ngrx/store';
 import { AppState } from './app.reducer';
 import { removeUser, setUser } from './auth/auth.actions';
+import { removeItems } from './dashboard/income-expenses/income-expenses.actions';
 
 @Component({
   selector: 'app-root',
@@ -19,14 +20,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.initAuthListener().subscribe((user) => {
-      console.log(user);
-      console.log(user?.uid);
-      console.log(user?.email);
-
       if (user) {
         this.store.dispatch(setUser({ user: user }));
       } else {
         this.store.dispatch(removeUser());
+        this.store.dispatch(removeItems());
       }
     });
   }

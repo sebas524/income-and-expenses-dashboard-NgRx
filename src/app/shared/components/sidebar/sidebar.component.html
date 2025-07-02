@@ -20,14 +20,24 @@
     <li class="nav-item">
       <a class="nav-link cursor">
         <i class="menu-icon fa fa-tachometer-alt"></i>
-        <span routerLink="/dashboard" class="menu-title">Dashboard</span>
+        <span
+          routerLink="/dashboard/statistic"
+          routerLinkActive="underline"
+          class="menu-title"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >Statistics</span
+        >
       </a>
     </li>
 
     <li class="nav-item">
       <a class="nav-link cursor">
         <i class="menu-icon fa fa-clipboard-list"></i>
-        <span routerLink="/dashboard/income-expenses" class="menu-title"
+        <span
+          routerLink="/dashboard/income-expenses"
+          routerLinkActive="underline"
+          class="menu-title"
+          [routerLinkActiveOptions]="{ exact: true }"
           >Income & Expenses</span
         >
       </a>
@@ -36,7 +46,13 @@
     <li class="nav-item">
       <a class="nav-link cursor">
         <i class="menu-icon fa fa-table"></i>
-        <span routerLink="/dashboard/detail" class="menu-title">Detail</span>
+        <span
+          routerLink="/dashboard/detail"
+          routerLinkActive="underline"
+          class="menu-title"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >Detail</span
+        >
       </a>
     </li>
 

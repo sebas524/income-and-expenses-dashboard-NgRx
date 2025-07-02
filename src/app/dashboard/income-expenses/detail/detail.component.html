@@ -10,17 +10,29 @@
               <th>Description</th>
               <th>Amount</th>
               <th>Type</th>
-              <th></th>
+              <th>Action</th>
             </tr>
           </thead>
 
           <tbody>
+            @for (item of incomeExpenses; track item.id) {
             <tr>
-              <td>Description</td>
-              <td>Amount</td>
-              <td>Type</td>
-              <td>Actions</td>
+              <td>{{ item.description }}</td>
+              <td>{{ item.amount | currency }}</td>
+              <td
+                [class.text-success]="item.type === 'income'"
+                [class.text-danger]="item.type === 'expense'"
+              >
+                {{ item.type }}
+              </td>
+              <td>
+                <button class="btn btn-danger" (click)="deleteEntry(item.id)">
+                  <i class="fa fa-trash"></i>
+                  remove
+                </button>
+              </td>
             </tr>
+            }
           </tbody>
         </table>
       </div>

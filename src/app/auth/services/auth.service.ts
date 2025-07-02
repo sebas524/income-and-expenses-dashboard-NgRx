@@ -8,21 +8,19 @@ import {
 import { Firestore, doc, getDoc, setDoc } from '@angular/fire/firestore';
 import { from, map, Observable, switchMap } from 'rxjs';
 import { User } from '../../models/user.model';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../app.reducer';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private fireAuth = inject(Auth);
   private firestore = inject(Firestore);
-  private store = inject(Store<AppState>);
 
   initAuthListener(): Observable<User | null> {
     return authState(this.fireAuth).pipe(
       switchMap((fbUser) => {
         if (!fbUser) return [null]; // emit null when signed out
 
-        const userDocRef = doc(this.firestore, `user/${fbUser.uid}`);
+        const userDocRef = doc(this.firestore, `users/${fbUser.uid}`);
+
         return from(getDoc(userDocRef)).pipe(
           map((docSnap) => {
             if (!docSnap.exists()) return null;
@@ -50,7 +48,9 @@ export class AuthService {
       name,
       firebaseUser.user.email!
     );
-    await setDoc(doc(this.firestore, `user/${newUser.uid}`), { ...newUser }); //! New-style Firestore
+    const profileRef = doc(this.firestore, `users/${newUser.uid}`);
+    await setDoc(profileRef, { ...newUser });
+
     return newUser;
   }
 

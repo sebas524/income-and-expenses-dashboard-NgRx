@@ -5,7 +5,7 @@
         <h4 class="card-title">Add Income / Expense</h4>
         <p class="card-description">Specify the amount and type</p>
 
-        <form>
+        <form [formGroup]="incomeExpenseForm" (ngSubmit)="addEntry()">
           <div class="form-group">
             <label>Description</label>
             <input
@@ -13,6 +13,7 @@
               class="form-control"
               placeholder="Description"
               name="description"
+              formControlName="description"
             />
           </div>
 
@@ -23,6 +24,7 @@
               class="form-control"
               placeholder="Amount"
               name="amount"
+              formControlName="amount"
             />
             <p>Must be a positive amount</p>
           </div>
@@ -30,16 +32,38 @@
           <div class="form-group">
             <label>Type</label>
             <br />
-            <button type="button" class="btn btn-primary btn-block">
+
+            @if ( type === "income" ) {
+            <button
+              (click)="type = 'expense'"
+              type="button"
+              class="btn btn-primary btn-block"
+            >
               Income
             </button>
-            <!-- <button type="button" class="btn btn-warning btn-block">Expense</button> -->
+            }@else {
+
+            <button
+              (click)="type = 'income'"
+              type="button"
+              class="btn btn-warning btn-block"
+            >
+              Expense
+            </button>
+            }
           </div>
 
           <hr />
-          <button type="button" class="btn btn-success mr-2">
+          <button
+            type="submit"
+            class="btn btn-success mr-2"
+            [disabled]="incomeExpenseForm.invalid || loading"
+          >
+            > @if (!loading) {
             <i class="fa fa-save"></i>
-            Add
+            }@if(loading) {
+            <i class="fa fa-sync fa-spin"></i>
+            } Add
           </button>
 
           <!--

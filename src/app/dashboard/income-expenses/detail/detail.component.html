@@ -15,7 +15,8 @@
           </thead>
 
           <tbody>
-            @for (item of incomeExpenses; track item.id) {
+            @for (item of incomeExpenses | orderIncomeExpenses ; track item.id)
+            {
             <tr>
               <td>{{ item.description }}</td>
               <td>{{ item.amount | currency }}</td>

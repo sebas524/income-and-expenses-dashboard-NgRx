@@ -3,6 +3,7 @@ import {
   addDoc,
   collection,
   collectionData,
+  deleteDoc,
   doc,
   Firestore,
 } from '@angular/fire/firestore';
@@ -41,5 +42,18 @@ export class IncomeExpensesService {
     return collectionData(collectionRef, { idField: 'id' }) as Observable<
       IncomeExpenses[]
     >;
+  }
+
+  async deleteIncomeExpense(itemId: string) {
+    const authState = await firstValueFrom(this.store.select('user'));
+    const uid = authState.user?.uid;
+    if (!uid) {
+      throw new Error('User not found in store');
+    }
+    const itemDocRef = doc(
+      this.firestore,
+      `users/${uid}/income-expenses/${itemId}`
+    );
+    await deleteDoc(itemDocRef);
   }
 }

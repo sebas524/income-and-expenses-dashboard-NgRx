@@ -1,11 +1,59 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { IncomeExpenses } from '../../../models/income-expenses.model';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../app.reducer';
+import { Subscription } from 'rxjs';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-statistic',
-  imports: [],
+  imports: [CurrencyPipe],
   templateUrl: './statistic.component.html',
-  styleUrl: './statistic.component.css'
+  styleUrl: './statistic.component.css',
 })
 export class StatisticComponent {
+  income: number = 0;
+  expenses: number = 0;
+  totalIncome: number = 0;
+  totalExpenses: number = 0;
+  incomeExpensesSubs!: Subscription;
 
+  private store = inject(Store<AppState>);
+
+  ngOnInit(): void {
+    this.incomeExpensesSubs = this.store
+      .select('incomeExpenses')
+      .subscribe((state) => {
+        this.generateStatistics(state.items);
+      });
+  }
+  ngOnDestroy(): void {
+    this.incomeExpensesSubs.unsubscribe();
+  }
+
+  generateStatistics(items: IncomeExpenses[]) {
+    const { income, expenses, totalIncome, totalExpenses } = items.reduce(
+      (acc, item) => {
+        if (item.type === 'income') {
+          acc.income++;
+          acc.totalIncome += item.amount;
+        } else if (item.type === 'expense') {
+          acc.expenses++;
+          acc.totalExpenses += item.amount;
+        }
+        return acc;
+      },
+      {
+        income: 0,
+        expenses: 0,
+        totalIncome: 0,
+        totalExpenses: 0,
+      }
+    );
+
+    this.income = income;
+    this.expenses = expenses;
+    this.totalIncome = totalIncome;
+    this.totalExpenses = totalExpenses;
+  }
 }

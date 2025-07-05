@@ -44,8 +44,10 @@ export class IncomeExpensesComponent implements OnInit, OnDestroy {
     const { description, amount } = this.incomeExpenseForm.value;
 
     const incomeExpense = new IncomeExpenses(description!, amount!, this.type);
+    // Convert to plain object without `undefined` fields
+    const { id, ...cleanIncomeExpense } = incomeExpense;
     this.incomeExpensesService
-      .createIncomeExpense(incomeExpense)
+      .createIncomeExpense(cleanIncomeExpense)
       .then(() => {
         this.store.dispatch(stopLoading());
 

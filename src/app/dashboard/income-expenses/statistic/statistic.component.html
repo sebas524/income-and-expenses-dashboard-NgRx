@@ -77,13 +77,17 @@
     </div>
   </div>
 
-  @if (totalIncome > 0 || totalExpenses > 0 ) {
+  @if (chartConfig && (totalIncome > 0 || totalExpenses > 0)) {
   <div class="col-12 p-5">
     <div class="card card-statistics">
       <div class="card-body">
-        <h1 class="card-title">GrÃ¡fica</h1>
+        <h3 class="text-center mb-4">Income & Expenses</h3>
 
-        <!-- dounoout char goes here -->
+        <div class="d-flex justify-content-center">
+          <div style="max-width: 400px; width: 100%">
+            <app-chart [config]="chartConfig"></app-chart>
+          </div>
+        </div>
       </div>
     </div>
   </div>

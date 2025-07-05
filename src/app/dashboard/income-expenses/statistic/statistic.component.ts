@@ -4,10 +4,12 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.reducer';
 import { Subscription } from 'rxjs';
 import { CurrencyPipe } from '@angular/common';
+import { ChartConfiguration } from 'chart.js';
+import { ChartComponent } from '../../../shared/components/chart/chart.component';
 
 @Component({
   selector: 'app-statistic',
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, ChartComponent],
   templateUrl: './statistic.component.html',
   styleUrl: './statistic.component.css',
 })
@@ -19,6 +21,7 @@ export class StatisticComponent {
   incomeExpensesSubs!: Subscription;
 
   private store = inject(Store<AppState>);
+  chartConfig: ChartConfiguration | undefined;
 
   ngOnInit(): void {
     this.incomeExpensesSubs = this.store
@@ -55,5 +58,27 @@ export class StatisticComponent {
     this.expenses = expenses;
     this.totalIncome = totalIncome;
     this.totalExpenses = totalExpenses;
+
+    this.chartConfig = {
+      type: 'doughnut',
+      data: {
+        labels: ['Income', 'Expenses'],
+        datasets: [
+          {
+            data: [this.totalIncome, this.totalExpenses],
+            backgroundColor: ['#28a745', '#dc3545'],
+            hoverOffset: 4,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+          },
+        },
+      },
+    };
   }
 }

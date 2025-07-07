@@ -31,7 +31,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.uiSubs = this.store.select('ui').subscribe((state) => {
       this.loading = state.isLoading;
-      console.log('loading subsss');
     });
   }
   ngOnDestroy(): void {
@@ -61,8 +60,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       .then((credentials) => {
         // Swal.close();
         this.store.dispatch(ui.stopLoading());
-
-        console.log(credentials);
 
         this.router.navigate(['/']);
       })

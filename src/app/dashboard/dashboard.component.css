@@ -1,0 +1,10 @@
+.fade-loader {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out, visibility 0.5s;
+  visibility: visible;
+}
+
+.fade-loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+}

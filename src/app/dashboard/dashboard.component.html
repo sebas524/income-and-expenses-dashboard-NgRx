@@ -1,8 +1,25 @@
+<!-- Loader with fade effect, never removed from DOM, only hidden -->
+<div
+  [class.fade-loader]="true"
+  [class.hidden]="!isLoading"
+  class="d-flex justify-content-center align-items-center vh-100 position-fixed w-100 bg-white"
+  style="z-index: 1050"
+>
+  <div class="spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+<!-- Content is shown normally once isLoading is false -->
+@if (!isLoading) {
 <app-navbar></app-navbar>
 <div class="page-body-wrapper">
   <app-sidebar></app-sidebar>
   <div class="main-panel">
-    <div class="content-wrapper"><router-outlet></router-outlet></div>
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
     <app-footer></app-footer>
   </div>
 </div>
+}

@@ -22,6 +22,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   userSubs!: Subscription;
   incomeExpensesSubs!: Subscription;
 
+  isLoading = true;
+
   ngOnInit(): void {
     this.userSubs = this.store
       .select('user')
@@ -38,6 +40,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
           .initIncomeExpensesListener(uid)
           .subscribe((data) => {
             this.store.dispatch(setItems({ items: data }));
+
+            // Only stop loading once data is in:
+            this.isLoading = false;
           });
       });
   }

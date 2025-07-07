@@ -2,6 +2,8 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { removeItems, setItems } from './income-expenses.actions';
 import { IncomeExpenses } from '../../models/income-expenses.model';
 
+export const incomeExpensesFeatureKey = 'incomeExpenses';
+
 export interface State {
   items: IncomeExpenses[];
 }

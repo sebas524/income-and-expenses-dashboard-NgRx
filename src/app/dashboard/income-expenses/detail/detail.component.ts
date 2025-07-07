@@ -24,7 +24,6 @@ export class DetailComponent implements OnInit, OnDestroy {
       .select('incomeExpenses')
       .subscribe((state) => {
         this.incomeExpenses = state.items;
-        console.log(this.incomeExpenses);
       });
   }
   ngOnDestroy(): void {

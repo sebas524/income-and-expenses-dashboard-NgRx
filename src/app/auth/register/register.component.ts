@@ -31,7 +31,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.uiSubs = this.store.select('ui').subscribe((state) => {
       this.loading = state.isLoading;
-      console.log('loading subsss');
     });
   }
   ngOnDestroy(): void {
@@ -59,8 +58,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
         // Swal.close();
         this.store.dispatch(ui.stopLoading());
 
-        console.log(credentials);
-
         this.router.navigate(['/']);
       })
       .catch((err) => {
@@ -72,8 +69,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
           text: 'please double check info being given!',
         });
       });
-
-    console.log(this.registerForm.value);
 
     this.registerForm.reset();
   }

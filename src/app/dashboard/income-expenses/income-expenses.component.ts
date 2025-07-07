@@ -59,8 +59,6 @@ export class IncomeExpensesComponent implements OnInit, OnDestroy {
         Swal.fire(`Error!`, err.message, 'error');
       });
 
-    console.log(incomeExpense);
-
     this.incomeExpenseForm.reset();
   }
 }

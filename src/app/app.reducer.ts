@@ -6,11 +6,11 @@ import * as incomeExpenses from './dashboard/income-expenses/income-expenses.red
 export interface AppState {
   ui: ui.State;
   user: auth.State;
-  incomeExpenses: incomeExpenses.State;
+  // incomeExpenses: incomeExpenses.State;
 }
 
 export const appReducers: ActionReducerMap<AppState> = {
   ui: ui.uiReducer,
   user: auth.authReducer,
-  incomeExpenses: incomeExpenses.incomeExpensesReducer,
+  // incomeExpenses: incomeExpenses.incomeExpensesReducer,
 };
